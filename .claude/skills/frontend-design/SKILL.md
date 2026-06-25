@@ -1,12 +1,31 @@
 ---
 name: frontend-design
-description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults. Customized for the Sterling & Vale Advisory house style — a purple/aubergine, conversion-focused lead-magnet identity that drives enquiry-form submissions.
 license: Complete terms in LICENSE.txt
 ---
 
 # Frontend Design
 
 Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.
+
+## House brief (customized default for this project)
+
+This skill is tuned for the **Sterling & Vale Advisory** marketing site ([index.html](index.html)). Unless the user's prompt overrides a given axis, treat the following as the house style — and always keep the page's single job front of mind: **getting the visitor to submit the enquiry form.** The brief's own words always win over these defaults.
+
+**Make it a lead magnet, not a brochure.** Design every section to move the reader toward the enquiry form. Concretely:
+- Frame the offer as something of value the visitor *claims* (the free "Wealth Blueprint"), not a generic "contact us." Name it, make it tangible, show what's inside.
+- Give the page one primary call to action — claiming the Blueprint — repeated at the nav, hero, and form. Keep secondary actions visually quieter.
+- Stack persuasion the audience actually responds to: a clear value list, social proof (testimonials), honest scarcity, and reassurance (no cost, no obligation, privacy, fiduciary). Keep each honest — this is a regulated-feeling finance brand, so credibility beats hype.
+- Reduce form friction (few required fields) while qualifying the lead with one light optional field.
+- The enquiry form posts to the user via FormSubmit; preserve that endpoint and its helper fields (`_subject`, `_template`, `_captcha`, the `_honey` honeypot) when reshaping the form.
+
+**Purple is the default palette.** Build a cohesive aubergine/violet identity rather than a generic one. Reach for a deep plum base (`#15092b → #271252`), an electric orchid accent (`#a855f7`) for interactive/hover/focus states, soft lilac (`#cdb4fd`) for muted text on dark, and a **restrained champagne gold** (`#ecca8a`) reserved *only* for the lead-magnet CTA and a scarcity/seal accent — purple + champagne reads as premium wealth. Spend boldness in one signature place and keep everything else quiet. If the user asks for a different colour, follow them instead.
+
+**Typography with personality.** Avoid the default Playfair + Inter pairing. The house pairing is **Fraunces** (optical serif display, editorial and premium) with **Instrument Sans** (clean grotesque body); pick something equally deliberate if the brief pushes elsewhere.
+
+**Signature element.** The page should be remembered by one concrete object that embodies the offer — e.g. a sealed "Blueprint" document card with a champagne "No cost" seal and a soft aura glow. Keep it the single bold moment; respect `prefers-reduced-motion`.
+
+**Keep the constraints.** Stay vanilla HTML/CSS/JS in the one self-contained `index.html` (no frameworks, no build step), drive all colour/spacing from `:root` custom properties, and hold the quality floor: responsive to mobile, visible keyboard focus, reduced motion respected.
 
 ## Ground it in the subject
 
