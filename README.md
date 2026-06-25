@@ -4,6 +4,8 @@ A single-page marketing website for **Sterling & Vale Advisory**, a fictional in
 
 🔗 **Live site:** https://darrenrulz1609.github.io/Darren-Tan/
 
+![Sterling & Vale Advisory — homepage](docs/screenshot.png)
+
 ## Features
 
 - **Fully self-contained** — no build step, no package manager, no dependencies (only Google Fonts via `<link>`).
