@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Sterling & Vale Advisory — one-page investment advisory website
+  Sterling & Vale Advisory — one-page wealth-advisory lead magnet
   Vanilla HTML/CSS/JS only. No frameworks, no build step. Google Fonts is the
   only external resource.
 
@@ -19,34 +19,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sterling & Vale Advisory — long-term wealth management for professionals and families. Wealth planning, retirement strategy, portfolio management and estate planning." />
-  <title>Sterling &amp; Vale Advisory — Long-Term Wealth Management</title>
+  <meta name="description" content="Get your free Wealth Blueprint from Sterling &amp; Vale Advisory: a personalized, no-obligation plan for your wealth, retirement and estate, prepared by a fiduciary advisor." />
+  <title>Free Wealth Blueprint | Sterling &amp; Vale Advisory</title>
 
-  <!-- Google Fonts: Playfair Display (headings) + Inter (body) -->
+  <!-- Crawling / indexation -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="theme-color" content="#1d0f3a" />
+  <link rel="canonical" href="https://darrenrulz1609.github.io/Darren-Tan/" />
+
+  <!-- Open Graph (link previews when the Blueprint offer is shared) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sterling &amp; Vale Advisory" />
+  <meta property="og:title" content="Free Wealth Blueprint | Sterling &amp; Vale Advisory" />
+  <meta property="og:description" content="Answer a few questions and a fiduciary advisor prepares a clear, written plan for your money. No cost, no obligation." />
+  <meta property="og:url" content="https://darrenrulz1609.github.io/Darren-Tan/" />
+  <meta property="og:image" content="https://darrenrulz1609.github.io/Darren-Tan/docs/screenshot.png" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Wealth Blueprint | Sterling &amp; Vale Advisory" />
+  <meta name="twitter:description" content="A clear, written plan for your wealth, retirement and estate, prepared by a fiduciary advisor. No cost, no obligation." />
+  <meta name="twitter:image" content="https://darrenrulz1609.github.io/Darren-Tan/docs/screenshot.png" />
+
+  <!-- Structured data: financial-advisory service + the free Blueprint offer -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "Sterling & Vale Advisory",
+    "description": "Independent, fiduciary wealth management for professionals and families, covering wealth planning, retirement strategy, portfolio management and estate planning.",
+    "url": "https://darrenrulz1609.github.io/Darren-Tan/",
+    "image": "https://darrenrulz1609.github.io/Darren-Tan/docs/screenshot.png",
+    "areaServed": "US",
+    "knowsAbout": ["Wealth planning", "Retirement strategy", "Portfolio management", "Estate planning"],
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "Free Wealth Blueprint",
+      "description": "A personalized, written financial plan prepared by a fiduciary advisor, at no cost and with no obligation.",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts: Fraunces (display) + Instrument Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ===================================================================
-       DESIGN TOKENS
+       DESIGN TOKENS  — purple / aubergine premium palette
        =================================================================== */
     :root {
-      /* Colour */
-      --navy: #0f1f3a;
-      --slate: #1e2d4d;
-      --slate-deep: #16243f;
-      --gold: #c8a96a;
-      --gold-soft: #d9bf8e;
-      --off-white: #f7f5f0;
-      --white: #ffffff;
-      --ink: #1a1f2b;
-      --muted: #5b6472;
-      --line: #e3e0d8;
+      /* Colour — deep plum base + orchid accent + restrained champagne */
+      --plum-950: #15092b;
+      --plum-900: #1d0f3a;
+      --plum-800: #271252;
+      --violet-700: #5b2a9d;
+      --violet-600: #7c3aed;
+      --orchid: #a855f7;
+      --orchid-bright: #b977ff;
+      --lilac: #cdb4fd;
+      --champagne: #ecca8a;
+      --champagne-soft: #f6ddb0;
+
+      --bg: #f6f2fb;          /* lavender-tinted off-white */
+      --surface: #ffffff;
+      --surface-2: #efe8fa;
+      --ink: #1c1430;
+      --muted: #6c6385;
+      --line: #e7e0f2;
 
       /* Typography */
-      --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
-      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+      --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
       /* Spacing scale */
       --space-1: 0.5rem;
@@ -58,10 +106,11 @@
       --space-7: 6.5rem;
 
       /* Misc */
-      --radius: 14px;
-      --radius-sm: 9px;
-      --shadow-sm: 0 2px 10px rgba(15, 31, 58, 0.06);
-      --shadow-md: 0 14px 40px rgba(15, 31, 58, 0.10);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 2px 12px rgba(33, 12, 70, 0.08);
+      --shadow-md: 0 18px 48px rgba(33, 12, 70, 0.16);
+      --shadow-glow: 0 24px 70px rgba(124, 58, 237, 0.35);
       --maxw: 1180px;
       --nav-h: 72px;
       --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -78,22 +127,28 @@
       margin: 0;
       font-family: var(--font-sans);
       color: var(--ink);
-      background: var(--off-white);
+      background: var(--bg);
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    h1, h2, h3 { font-family: var(--font-serif); line-height: 1.15; margin: 0; color: var(--navy); font-weight: 600; }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-optical-sizing: auto;
+      line-height: 1.12;
+      margin: 0;
+      color: var(--plum-900);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
 
     p { margin: 0; }
-
     a { color: inherit; text-decoration: none; }
-
     img { max-width: 100%; display: block; }
 
     :focus-visible {
-      outline: 3px solid var(--gold);
+      outline: 3px solid var(--orchid);
       outline-offset: 3px;
       border-radius: 4px;
     }
@@ -106,19 +161,28 @@
     }
 
     .eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 600;
-      color: var(--gold);
+      color: var(--violet-600);
       margin-bottom: var(--space-2);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 26px; height: 1px;
+      background: currentColor;
+      opacity: 0.7;
     }
 
     .section { padding-block: var(--space-7); }
 
-    .section__head { max-width: 640px; margin-bottom: var(--space-5); }
-    .section__head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); }
-    .section__head p { color: var(--muted); margin-top: var(--space-2); font-size: 1.05rem; }
+    .section__head { max-width: 660px; margin-bottom: var(--space-5); }
+    .section__head h2 { font-size: clamp(2rem, 4.4vw, 2.9rem); }
+    .section__head p { color: var(--muted); margin-top: var(--space-2); font-size: 1.07rem; }
 
     /* ===================================================================
        BUTTONS
@@ -127,31 +191,41 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
       font-family: var(--font-sans);
       font-size: 1rem;
       font-weight: 600;
-      padding: 0.9rem 1.6rem;
-      border-radius: var(--radius-sm);
+      padding: 0.95rem 1.7rem;
+      border-radius: 999px;
       border: 1px solid transparent;
       cursor: pointer;
-      transition: transform 0.18s var(--ease), background-color 0.2s var(--ease), box-shadow 0.2s var(--ease), color 0.2s var(--ease);
+      transition: transform 0.18s var(--ease), background-color 0.2s var(--ease), box-shadow 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
     }
     .btn:active { transform: translateY(1px); }
+    .btn svg { width: 18px; height: 18px; }
 
+    /* Champagne CTA — reserved for the lead-magnet action */
     .btn--gold {
-      background: var(--gold);
-      color: var(--navy);
-      box-shadow: 0 8px 22px rgba(200, 169, 106, 0.32);
+      background: linear-gradient(135deg, var(--champagne-soft), var(--champagne));
+      color: var(--plum-900);
+      box-shadow: 0 12px 30px rgba(236, 202, 138, 0.4);
     }
-    .btn--gold:hover { background: var(--gold-soft); transform: translateY(-2px); }
+    .btn--gold:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(236, 202, 138, 0.55); }
+
+    /* Orchid CTA — secondary primary action on light surfaces */
+    .btn--violet {
+      background: linear-gradient(135deg, var(--violet-600), var(--orchid));
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+    .btn--violet:hover { transform: translateY(-2px); filter: brightness(1.06); }
 
     .btn--ghost {
-      background: transparent;
-      color: var(--white);
-      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      border-color: rgba(205, 180, 253, 0.45);
     }
-    .btn--ghost:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.7); }
+    .btn--ghost:hover { background: rgba(205, 180, 253, 0.12); border-color: var(--lilac); }
 
     .btn[disabled] { opacity: 0.65; cursor: not-allowed; transform: none; }
 
@@ -163,8 +237,8 @@
       top: 0;
       z-index: 100;
       height: var(--nav-h);
-      background: rgba(247, 245, 240, 0.85);
-      backdrop-filter: saturate(160%) blur(10px);
+      background: rgba(246, 242, 251, 0.82);
+      backdrop-filter: saturate(160%) blur(12px);
       border-bottom: 1px solid var(--line);
     }
     .nav__inner {
@@ -174,15 +248,15 @@
       justify-content: space-between;
     }
     .brand { display: flex; align-items: baseline; gap: 0.55rem; }
-    .brand__mark { font-family: var(--font-serif); font-size: 1.32rem; font-weight: 700; color: var(--navy); letter-spacing: 0.01em; }
-    .brand__mark .amp { color: var(--gold); }
-    .brand__sub { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+    .brand__mark { font-family: var(--font-display); font-size: 1.34rem; font-weight: 600; color: var(--plum-900); letter-spacing: -0.01em; }
+    .brand__mark .amp { color: var(--violet-600); font-style: italic; }
+    .brand__sub { font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
 
     .nav__links { display: flex; align-items: center; gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
     .nav__links a {
       font-size: 0.95rem;
       font-weight: 500;
-      color: var(--slate);
+      color: var(--plum-800);
       position: relative;
       padding-block: 0.25rem;
     }
@@ -191,19 +265,20 @@
       position: absolute;
       left: 0; bottom: -2px;
       width: 0; height: 2px;
-      background: var(--gold);
+      background: var(--orchid);
       transition: width 0.25s var(--ease);
     }
     .nav__links a:hover::after, .nav__links a:focus-visible::after { width: 100%; }
 
-    .nav__cta { margin-left: var(--space-1); padding: 0.55rem 1.1rem; font-size: 0.9rem; }
+    .nav__cta { margin-left: var(--space-1); padding: 0.55rem 1.2rem; font-size: 0.9rem; }
+    .nav__links a.nav__cta::after { display: none; }
 
     .nav__toggle {
       display: none;
       width: 44px; height: 44px;
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
-      background: var(--white);
+      background: var(--surface);
       cursor: pointer;
       padding: 0;
       align-items: center;
@@ -213,7 +288,7 @@
       content: "";
       display: block;
       width: 20px; height: 2px;
-      background: var(--navy);
+      background: var(--plum-900);
       border-radius: 2px;
       transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
     }
@@ -228,154 +303,243 @@
        HERO
        =================================================================== */
     .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
       position: relative;
       overflow: hidden;
-      color: var(--white);
+      color: #fff;
       background:
-        radial-gradient(1100px 520px at 78% -10%, rgba(200, 169, 106, 0.20), transparent 60%),
-        radial-gradient(900px 600px at 5% 110%, rgba(46, 74, 128, 0.55), transparent 55%),
-        linear-gradient(155deg, var(--navy) 0%, var(--slate) 55%, var(--slate-deep) 100%);
+        radial-gradient(1200px 560px at 82% -8%, rgba(168, 85, 247, 0.38), transparent 60%),
+        radial-gradient(900px 620px at 4% 112%, rgba(236, 202, 138, 0.14), transparent 55%),
+        linear-gradient(160deg, var(--plum-950) 0%, var(--plum-900) 45%, var(--plum-800) 100%);
     }
-    /* subtle texture lines */
+    /* faint hairline grid texture */
     .hero::after {
       content: "";
       position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 100% 56px;
-      opacity: 0.5;
+      background-image: linear-gradient(rgba(205, 180, 253, 0.05) 1px, transparent 1px);
+      background-size: 100% 58px;
+      opacity: 0.6;
       pointer-events: none;
     }
     .hero__inner { position: relative; z-index: 1; padding-block: var(--space-6); }
-    .hero__content { max-width: 720px; }
-    .hero h1 {
-      color: var(--white);
-      font-size: clamp(2.4rem, 6vw, 4.1rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
+    .hero__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-6); align-items: center; }
+    .hero__content { max-width: 620px; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--lilac);
+      background: rgba(205, 180, 253, 0.1);
+      border: 1px solid rgba(205, 180, 253, 0.28);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: var(--space-3);
     }
-    .hero h1 em { font-style: italic; color: var(--gold-soft); }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--champagne); box-shadow: 0 0 0 4px rgba(236,202,138,0.25); }
+
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(2.5rem, 6.2vw, 4.3rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em { font-style: italic; color: var(--champagne); }
     .hero__sub {
       margin-top: var(--space-3);
-      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
-      color: rgba(255, 255, 255, 0.82);
-      max-width: 560px;
+      font-size: clamp(1.08rem, 2.2vw, 1.32rem);
+      color: rgba(233, 226, 248, 0.86);
+      max-width: 540px;
     }
-    .hero__actions { margin-top: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .hero__actions { margin-top: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+    .hero__reassure { margin-top: var(--space-2); font-size: 0.86rem; color: rgba(205, 180, 253, 0.8); display: flex; align-items: center; gap: 0.5rem; }
+    .hero__reassure svg { width: 16px; height: 16px; color: var(--champagne); flex: 0 0 auto; }
 
     .stats {
-      margin-top: var(--space-6);
+      margin-top: var(--space-5);
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-3);
-      max-width: 720px;
+      max-width: 560px;
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(205, 180, 253, 0.18);
     }
-    .stat { border-left: 2px solid var(--gold); padding-left: var(--space-2); }
-    .stat__num { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--white); }
-    .stat__label { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+    .stat__num { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 500; color: #fff; }
+    .stat__num span { color: var(--champagne); }
+    .stat__label { font-size: 0.82rem; color: rgba(205, 180, 253, 0.78); }
+
+    /* —— Signature: the Blueprint card teaser —— */
+    .blueprint-wrap { position: relative; display: flex; justify-content: center; }
+    .blueprint-wrap::before {
+      content: "";
+      position: absolute; inset: -12%;
+      background: radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.55), transparent 62%);
+      filter: blur(18px);
+      z-index: 0;
+      animation: aura 7s ease-in-out infinite;
+    }
+    @keyframes aura {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.06); }
+    }
+    .blueprint {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 360px;
+      background: linear-gradient(170deg, #fffdf9, #f4ecff);
+      color: var(--ink);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 20px;
+      padding: var(--space-4);
+      box-shadow: var(--shadow-md);
+      transform: rotate(-1.4deg);
+    }
+    .blueprint__label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: var(--violet-600); }
+    .blueprint__title { font-family: var(--font-display); font-size: 1.55rem; font-weight: 600; margin-top: 0.35rem; color: var(--plum-900); }
+    .blueprint__rule { height: 1px; background: var(--line); margin: var(--space-3) 0; }
+    .blueprint__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+    .blueprint__list li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.93rem; color: var(--plum-800); }
+    .blueprint__list svg { width: 18px; height: 18px; color: var(--violet-600); flex: 0 0 auto; margin-top: 2px; }
+    .seal {
+      position: absolute;
+      top: -18px; right: -16px;
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--champagne-soft), var(--champagne) 70%);
+      box-shadow: 0 10px 24px rgba(236, 202, 138, 0.5);
+      display: grid; place-items: center;
+      text-align: center;
+      transform: rotate(8deg);
+      border: 2px solid rgba(255,255,255,0.55);
+    }
+    .seal span { font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; line-height: 1.05; color: var(--plum-900); }
+    .seal span b { display: block; font-size: 1.05rem; }
 
     /* ===================================================================
-       SERVICES
+       SERVICES  — "what your Blueprint covers"
        =================================================================== */
-    .services { background: var(--white); }
+    .services { background: var(--surface); }
     .cards {
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--space-3);
     }
     .card {
-      background: var(--off-white);
+      background: var(--bg);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: var(--space-4);
       transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
     }
-    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--gold-soft); }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--lilac); }
     .card__icon {
       width: 52px; height: 52px;
       display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 12px;
-      background: rgba(200, 169, 106, 0.16);
-      color: var(--navy);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(168, 85, 247, 0.18));
+      color: var(--violet-600);
       margin-bottom: var(--space-2);
     }
     .card__icon svg { width: 26px; height: 26px; }
-    .card h3 { font-size: 1.22rem; margin-bottom: 0.4rem; }
+    .card h3 { font-size: 1.24rem; margin-bottom: 0.4rem; font-weight: 600; }
     .card p { color: var(--muted); font-size: 0.97rem; }
 
     /* ===================================================================
        TESTIMONIALS
        =================================================================== */
-    .testimonials { background: var(--off-white); }
+    .testimonials { background: var(--surface-2); }
     .carousel { position: relative; }
     .carousel__track { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
 
     .quote {
-      background: var(--white);
+      background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: var(--space-4);
       box-shadow: var(--shadow-sm);
     }
-    .quote__mark { font-family: var(--font-serif); font-size: 3rem; line-height: 0.5; color: var(--gold); height: 1.4rem; }
-    .quote__text { font-size: 1.08rem; color: var(--ink); margin-block: var(--space-2); }
+    .quote__mark { font-family: var(--font-display); font-size: 3.2rem; line-height: 0.5; color: var(--violet-600); height: 1.4rem; }
+    .quote__text { font-size: 1.09rem; color: var(--ink); margin-block: var(--space-2); }
     .quote__person { display: flex; align-items: center; gap: 0.85rem; margin-top: var(--space-3); }
     .avatar {
       width: 48px; height: 48px;
       border-radius: 50%;
       display: grid; place-items: center;
-      background: var(--navy);
-      color: var(--gold-soft);
+      background: linear-gradient(135deg, var(--violet-700), var(--orchid));
+      color: #fff;
       font-weight: 600;
       font-size: 1rem;
       flex: 0 0 auto;
     }
-    .quote__name { font-weight: 600; color: var(--navy); }
+    .quote__name { font-weight: 600; color: var(--plum-900); }
     .quote__role { font-size: 0.86rem; color: var(--muted); }
 
-    /* carousel controls — hidden on desktop where all 3 show as a grid */
     .carousel__controls { display: none; gap: var(--space-2); justify-content: center; align-items: center; margin-top: var(--space-4); }
     .carousel__btn {
       width: 46px; height: 46px;
       border-radius: 50%;
       border: 1px solid var(--line);
-      background: var(--white);
-      color: var(--navy);
+      background: var(--surface);
+      color: var(--plum-900);
       cursor: pointer;
       font-size: 1.2rem;
       display: grid; place-items: center;
       transition: background 0.2s var(--ease), color 0.2s var(--ease);
     }
-    .carousel__btn:hover { background: var(--navy); color: var(--white); }
+    .carousel__btn:hover { background: var(--violet-600); color: #fff; }
     .carousel__dots { display: flex; gap: 0.5rem; }
     .carousel__dot {
       width: 9px; height: 9px; border-radius: 50%; border: none;
       background: var(--line); cursor: pointer; padding: 0;
       transition: background 0.2s var(--ease), transform 0.2s var(--ease);
     }
-    .carousel__dot[aria-current="true"] { background: var(--gold); transform: scale(1.25); }
+    .carousel__dot[aria-current="true"] { background: var(--orchid); transform: scale(1.25); }
 
     /* ===================================================================
-       ENQUIRY FORM
+       LEAD-MAGNET FORM  (the centerpiece)
        =================================================================== */
-    .contact { background: var(--white); }
-    .contact__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
-    .contact__aside p { color: var(--muted); margin-top: var(--space-2); }
-    .contact__points { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; gap: var(--space-2); }
-    .contact__points li { display: flex; gap: 0.6rem; align-items: flex-start; color: var(--slate); font-size: 0.97rem; }
-    .contact__points svg { width: 20px; height: 20px; color: var(--gold); flex: 0 0 auto; margin-top: 2px; }
+    .contact {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(900px 480px at 88% 0%, rgba(168, 85, 247, 0.3), transparent 60%),
+        linear-gradient(155deg, var(--plum-900), var(--plum-800));
+    }
+    .contact .eyebrow { color: var(--lilac); }
+    .contact__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-5); align-items: start; }
+    .contact__aside h2 { color: #fff; font-size: clamp(2rem, 4.4vw, 2.9rem); }
+    .contact__aside > p { color: rgba(233, 226, 248, 0.85); margin-top: var(--space-2); font-size: 1.05rem; }
+    .contact__points { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: grid; gap: var(--space-2); }
+    .contact__points li { display: flex; gap: 0.7rem; align-items: flex-start; color: rgba(233, 226, 248, 0.92); font-size: 1rem; }
+    .contact__points svg { width: 22px; height: 22px; color: var(--champagne); flex: 0 0 auto; margin-top: 2px; }
+
+    .scarcity {
+      margin-top: var(--space-4);
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      background: rgba(236, 202, 138, 0.1);
+      border: 1px solid rgba(236, 202, 138, 0.35);
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-3);
+      font-size: 0.92rem;
+      color: var(--champagne-soft);
+    }
+    .scarcity svg { width: 20px; height: 20px; color: var(--champagne); flex: 0 0 auto; margin-top: 2px; }
 
     .form {
-      background: var(--off-white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 20px;
       padding: var(--space-4);
+      box-shadow: var(--shadow-md);
     }
+    .form__title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--plum-900); }
+    .form__lede { color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; margin-bottom: var(--space-3); }
     .field { margin-bottom: var(--space-3); }
-    .field label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--slate); margin-bottom: 0.4rem; }
-    .field .req { color: var(--gold); }
+    .field label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--plum-800); margin-bottom: 0.4rem; }
+    .field .req { color: var(--violet-600); }
+    .field .opt { color: var(--muted); font-weight: 400; }
     .field input, .field select, .field textarea {
       width: 100%;
       font-family: var(--font-sans);
@@ -384,29 +548,32 @@
       padding: 0.8rem 0.9rem;
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
-      background: var(--white);
-      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      background: var(--bg);
+      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
     }
-    .field textarea { resize: vertical; min-height: 130px; }
+    .field textarea { resize: vertical; min-height: 120px; }
     .field input:focus, .field select:focus, .field textarea:focus {
       outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.22);
+      background: var(--surface);
+      border-color: var(--orchid);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
     }
     .field input[aria-invalid="true"], .field textarea[aria-invalid="true"], .field select[aria-invalid="true"] {
-      border-color: #c0492f;
-      box-shadow: 0 0 0 3px rgba(192, 73, 47, 0.15);
+      border-color: #d6455f;
+      box-shadow: 0 0 0 3px rgba(214, 69, 95, 0.16);
     }
-    .field__error { color: #c0492f; font-size: 0.82rem; margin-top: 0.35rem; min-height: 1rem; }
+    .field__error { color: #d6455f; font-size: 0.82rem; margin-top: 0.35rem; min-height: 1rem; }
 
     /* honeypot — hidden from real users */
     .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
 
     .form__row { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
-    .form__submit { width: 100%; }
+    .form__submit { width: 100%; margin-top: 0.25rem; }
+    .form__fineprint { margin-top: var(--space-2); font-size: 0.82rem; color: var(--muted); display: flex; gap: 0.5rem; align-items: flex-start; }
+    .form__fineprint svg { width: 16px; height: 16px; color: var(--violet-600); flex: 0 0 auto; margin-top: 2px; }
 
     .form__status { margin-top: var(--space-2); font-size: 0.95rem; min-height: 1.2rem; }
-    .form__status--error { color: #c0492f; }
+    .form__status--error { color: #d6455f; }
 
     .success {
       display: none;
@@ -417,36 +584,36 @@
     .success__icon {
       width: 64px; height: 64px; margin: 0 auto var(--space-3);
       border-radius: 50%;
-      background: rgba(200, 169, 106, 0.18);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(168, 85, 247, 0.22));
       display: grid; place-items: center;
-      color: var(--gold);
+      color: var(--violet-600);
     }
     .success__icon svg { width: 34px; height: 34px; }
-    .success h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .success h3 { font-size: 1.6rem; margin-bottom: 0.5rem; }
     .success p { color: var(--muted); }
 
     /* ===================================================================
        FOOTER
        =================================================================== */
     .footer {
-      background: var(--navy);
-      color: rgba(255, 255, 255, 0.78);
+      background: var(--plum-950);
+      color: rgba(233, 226, 248, 0.72);
       padding-block: var(--space-5);
     }
     .footer__top { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
-    .footer__brand .brand__mark { color: var(--white); font-size: 1.4rem; }
+    .footer__brand .brand__mark { color: #fff; font-size: 1.42rem; }
     .footer__brand p { margin-top: var(--space-2); font-size: 0.95rem; max-width: 420px; }
     .footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
-    .footer__links a { font-size: 0.95rem; color: rgba(255,255,255,0.78); }
-    .footer__links a:hover { color: var(--gold-soft); }
+    .footer__links a { font-size: 0.95rem; color: rgba(233, 226, 248, 0.72); }
+    .footer__links a:hover { color: var(--champagne); }
     .footer__bottom {
       margin-top: var(--space-4);
       padding-top: var(--space-3);
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 1px solid rgba(205, 180, 253, 0.14);
       display: flex; flex-wrap: wrap; gap: var(--space-2);
       justify-content: space-between;
       font-size: 0.84rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(205, 180, 253, 0.6);
     }
     .footer__disclaimer { max-width: 640px; }
 
@@ -460,7 +627,6 @@
       will-change: opacity, transform;
     }
     .reveal.in-view { opacity: 1; transform: none; }
-    /* stagger children */
     .reveal[data-delay="1"] { transition-delay: 0.08s; }
     .reveal[data-delay="2"] { transition-delay: 0.16s; }
     .reveal[data-delay="3"] { transition-delay: 0.24s; }
@@ -468,6 +634,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
+      .blueprint-wrap::before { animation: none; }
       * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
     }
 
@@ -484,10 +651,14 @@
       .footer__links { justify-content: flex-end; }
     }
 
+    @media (min-width: 960px) {
+      .hero__grid { grid-template-columns: 1.05fr 0.95fr; }
+    }
+
     @media (min-width: 1024px) {
       .cards { grid-template-columns: repeat(4, 1fr); }
       .carousel__track { grid-template-columns: repeat(3, 1fr); }
-      .contact__grid { grid-template-columns: 0.85fr 1.15fr; align-items: start; }
+      .contact__grid { grid-template-columns: 0.95fr 1.05fr; align-items: start; }
     }
 
     /* Mobile nav */
@@ -499,7 +670,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        background: var(--white);
+        background: var(--surface);
         border-bottom: 1px solid var(--line);
         box-shadow: var(--shadow-md);
         padding: var(--space-2);
@@ -512,12 +683,12 @@
       .nav__links.is-open { transform: scaleY(1); opacity: 1; pointer-events: auto; }
       .nav__links li { width: 100%; }
       .nav__links a { display: block; padding: 0.8rem var(--space-2); border-radius: var(--radius-sm); }
-      .nav__links a:hover { background: var(--off-white); }
+      .nav__links a:hover { background: var(--bg); }
       .nav__links a::after { display: none; }
       .nav__cta { margin: var(--space-1) var(--space-2) 0; }
     }
 
-    /* On mobile the testimonials become a one-at-a-time carousel */
+    /* Testimonials become a one-at-a-time carousel below desktop */
     @media (max-width: 1023px) {
       .carousel__track .quote { display: none; }
       .carousel__track .quote.is-active { display: block; }
@@ -538,10 +709,10 @@
       <nav aria-label="Primary">
         <ul class="nav__links" id="navLinks">
           <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#contact" class="btn btn--gold nav__cta">Book a Consultation</a></li>
+          <li><a href="#about">What's inside</a></li>
+          <li><a href="#testimonials">Clients</a></li>
+          <li><a href="#contact">Get the Blueprint</a></li>
+          <li><a href="#contact" class="btn btn--gold nav__cta">Claim my Blueprint</a></li>
         </ul>
       </nav>
 
@@ -555,30 +726,67 @@
     <!-- ============================= HERO ============================= -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero__inner">
-        <div class="hero__content reveal">
-          <p class="eyebrow">Independent Wealth Management</p>
-          <h1 id="hero-title">Grow and protect <em>what matters</em></h1>
-          <p class="hero__sub">
-            Thoughtful, long-term financial guidance for professionals and families —
-            built on patience, clarity, and a fiduciary commitment to your goals.
-          </p>
-          <div class="hero__actions">
-            <a href="#contact" class="btn btn--gold" data-scroll>Book a Consultation</a>
-            <a href="#about" class="btn btn--ghost" data-scroll>Our Approach</a>
+        <div class="hero__grid">
+          <div class="hero__content reveal">
+            <span class="pill"><span class="dot" aria-hidden="true"></span> Free &middot; No obligation</span>
+            <h1 id="hero-title">Your free <em>Wealth Blueprint</em>, built around your life</h1>
+            <p class="hero__sub">
+              Answer a few questions and a fiduciary advisor will hand you a clear, written plan —
+              what to do with your money next, and why. No products pushed. No pressure.
+            </p>
+            <div class="hero__actions">
+              <a href="#contact" class="btn btn--gold" data-scroll>
+                Claim your free Blueprint
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </a>
+              <a href="#about" class="btn btn--ghost" data-scroll>See what's inside</a>
+            </div>
+            <p class="hero__reassure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+              Prepared by a fiduciary &middot; usually ready within one business day
+            </p>
+
+            <div class="stats" role="list">
+              <div class="stat" role="listitem">
+                <div class="stat__num">$10<span>B+</span></div>
+                <div class="stat__label">Assets advised</div>
+              </div>
+              <div class="stat" role="listitem">
+                <div class="stat__num">20<span>+</span></div>
+                <div class="stat__label">Years guiding families</div>
+              </div>
+              <div class="stat" role="listitem">
+                <div class="stat__num">98<span>%</span></div>
+                <div class="stat__label">Client retention</div>
+              </div>
+            </div>
           </div>
 
-          <div class="stats" role="list">
-            <div class="stat" role="listitem">
-              <div class="stat__num">$10B+</div>
-              <div class="stat__label">Assets advised</div>
-            </div>
-            <div class="stat" role="listitem">
-              <div class="stat__num">20+</div>
-              <div class="stat__label">Years of experience</div>
-            </div>
-            <div class="stat" role="listitem">
-              <div class="stat__num">98%</div>
-              <div class="stat__label">Client retention</div>
+          <!-- Signature: a sealed "Blueprint" the visitor is about to claim -->
+          <div class="blueprint-wrap reveal" data-delay="2" aria-hidden="true">
+            <div class="blueprint">
+              <div class="seal"><span>NO<b>COST</b></span></div>
+              <div class="blueprint__label">Complimentary</div>
+              <div class="blueprint__title">The Wealth Blueprint</div>
+              <div class="blueprint__rule"></div>
+              <ul class="blueprint__list">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Where you stand today, in plain numbers
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  A written plan for your top goal
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Tax, retirement &amp; estate moves to make next
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  A no-pressure call to talk it through
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -589,15 +797,14 @@
     <section class="section services" id="about" aria-labelledby="services-title">
       <div class="container">
         <div class="section__head reveal">
-          <p class="eyebrow">What we do</p>
-          <h2 id="services-title">A complete view of your financial life</h2>
-          <p>We coordinate every part of your wealth so each decision supports the next — today, in retirement, and for the generations that follow.</p>
+          <p class="eyebrow">What your Blueprint covers</p>
+          <h2 id="services-title">Every part of your money, working together</h2>
+          <p>Your Blueprint looks across your whole financial life — so each decision supports the next, today, in retirement, and for the people who come after you.</p>
         </div>
 
         <div class="cards">
           <article class="card reveal" data-delay="0">
             <span class="card__icon" aria-hidden="true">
-              <!-- chart/growth -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
             </span>
             <h3>Wealth Planning</h3>
@@ -606,7 +813,6 @@
 
           <article class="card reveal" data-delay="1">
             <span class="card__icon" aria-hidden="true">
-              <!-- shield -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
             </span>
             <h3>Retirement Strategy</h3>
@@ -615,7 +821,6 @@
 
           <article class="card reveal" data-delay="2">
             <span class="card__icon" aria-hidden="true">
-              <!-- balance/portfolio -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
             </span>
             <h3>Portfolio Management</h3>
@@ -624,7 +829,6 @@
 
           <article class="card reveal" data-delay="3">
             <span class="card__icon" aria-hidden="true">
-              <!-- home/estate -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
             </span>
             <h3>Estate Planning</h3>
@@ -639,7 +843,7 @@
       <div class="container">
         <div class="section__head reveal">
           <p class="eyebrow">In their words</p>
-          <h2 id="testimonials-title">Trusted across generations</h2>
+          <h2 id="testimonials-title">Families who claimed their Blueprint</h2>
           <p>Relationships measured in decades, not quarters.</p>
         </div>
 
@@ -647,7 +851,7 @@
           <div class="carousel__track" id="carouselTrack" aria-live="polite">
             <figure class="quote is-active">
               <div class="quote__mark" aria-hidden="true">&ldquo;</div>
-              <blockquote class="quote__text">Sterling &amp; Vale gave us a plan we actually understand. For the first time, we feel calm about retiring — and about what we leave behind.</blockquote>
+              <blockquote class="quote__text">The Blueprint gave us a plan we actually understand. For the first time, we feel calm about retiring — and about what we leave behind.</blockquote>
               <figcaption class="quote__person">
                 <span class="avatar" aria-hidden="true">MA</span>
                 <span>
@@ -691,33 +895,40 @@
       </div>
     </section>
 
-    <!-- =========================== CONTACT ============================ -->
+    <!-- =========================== CONTACT (LEAD MAGNET) ============================ -->
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <div class="contact__grid">
           <div class="contact__aside reveal">
-            <p class="eyebrow">Get in touch</p>
-            <h2 id="contact-title">Book a consultation</h2>
-            <p>Tell us a little about your goals. We'll respond within one business day to arrange a complimentary, no-obligation conversation.</p>
+            <p class="eyebrow">Claim yours</p>
+            <h2 id="contact-title">Get your free Wealth Blueprint</h2>
+            <p>Tell us a little about your goals. A fiduciary advisor will prepare your Blueprint and reach out within one business day — no cost, no obligation.</p>
             <ul class="contact__points">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                A personalized, written plan — yours to keep
+              </li>
               <li>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 Fiduciary advice — always in your interest
               </li>
               <li>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                Transparent, fee-based pricing
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                A dedicated advisor for the long term
+                Transparent, fee-based — no products pushed
               </li>
             </ul>
+            <p class="scarcity">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              We take on a limited number of new families each quarter, so each Blueprint gets real attention.
+            </p>
           </div>
 
-          <div class="reveal">
-            <!-- Enquiry form: submits via FormSubmit AJAX (no redirect) -->
+          <div class="reveal" data-delay="1">
+            <!-- Lead-magnet form: submits via FormSubmit AJAX (no redirect) -->
             <form class="form" id="enquiryForm" novalidate>
+              <p class="form__title">Start your Blueprint</p>
+              <p class="form__lede">Takes about a minute. We'll do the rest.</p>
+
               <!-- Honeypot: real users never see/fill this; bots often do -->
               <div class="hp" aria-hidden="true">
                 <label for="_honey">Leave this field empty</label>
@@ -726,7 +937,7 @@
 
               <div class="form__row">
                 <div class="field">
-                  <label for="name">Full Name <span class="req" aria-hidden="true">*</span></label>
+                  <label for="name">Full name <span class="req" aria-hidden="true">*</span></label>
                   <input type="text" id="name" name="name" autocomplete="name" required aria-required="true" aria-describedby="err-name" />
                   <div class="field__error" id="err-name" role="alert"></div>
                 </div>
@@ -739,29 +950,36 @@
 
               <div class="form__row">
                 <div class="field">
-                  <label for="phone">Phone <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+                  <label for="phone">Phone <span class="opt">(optional)</span></label>
                   <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="err-phone" />
                   <div class="field__error" id="err-phone" role="alert"></div>
                 </div>
                 <div class="field">
-                  <label for="interest">Investment interest</label>
-                  <select id="interest" name="interest">
-                    <option value="Wealth Planning">Wealth Planning</option>
-                    <option value="Retirement">Retirement</option>
-                    <option value="Portfolio Management">Portfolio Management</option>
-                    <option value="Estate Planning">Estate Planning</option>
-                    <option value="Other">Other</option>
+                  <label for="assets">Investable assets</label>
+                  <select id="assets" name="assets">
+                    <option value="Prefer not to say">Prefer not to say</option>
+                    <option value="Under $250k">Under $250k</option>
+                    <option value="$250k – $1M">$250k – $1M</option>
+                    <option value="$1M – $5M">$1M – $5M</option>
+                    <option value="$5M+">$5M+</option>
                   </select>
                 </div>
               </div>
 
               <div class="field">
-                <label for="message">Message <span class="req" aria-hidden="true">*</span></label>
-                <textarea id="message" name="message" required aria-required="true" aria-describedby="err-message" placeholder="What would you like to achieve?"></textarea>
+                <label for="message">Your #1 financial goal right now <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" required aria-required="true" aria-describedby="err-message" placeholder="e.g. retire comfortably at 60, sell my business, or simply get organised."></textarea>
                 <div class="field__error" id="err-message" role="alert"></div>
               </div>
 
-              <button type="submit" class="btn btn--gold form__submit" id="submitBtn">Send Enquiry</button>
+              <button type="submit" class="btn btn--gold form__submit" id="submitBtn">
+                Claim my free Blueprint
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </button>
+              <p class="form__fineprint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                No cost, no obligation. Your details stay private and are never sold.
+              </p>
               <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
             </form>
 
@@ -770,8 +988,8 @@
               <div class="success__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
               </div>
-              <h3>Thank you</h3>
-              <p>Thanks — we'll be in touch within one business day.</p>
+              <h3>Your Blueprint is on its way</h3>
+              <p>Thanks — a fiduciary advisor will prepare your Wealth Blueprint and be in touch within one business day.</p>
             </div>
           </div>
         </div>
@@ -784,15 +1002,15 @@
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
-          <span class="brand__mark">Sterling <span class="amp" style="color:var(--gold)">&amp;</span> Vale</span>
+          <span class="brand__mark">Sterling <span class="amp" style="color:var(--champagne)">&amp;</span> Vale</span>
           <p>Patient, independent wealth management for professionals and families who think in decades.</p>
         </div>
         <nav aria-label="Footer">
           <ul class="footer__links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">What's inside</a></li>
+            <li><a href="#testimonials">Clients</a></li>
+            <li><a href="#contact">Get the Blueprint</a></li>
           </ul>
         </nav>
       </div>
@@ -936,7 +1154,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 
     /* ===================================================================
-       6. ENQUIRY FORM — validation + FormSubmit AJAX
+       6. LEAD-MAGNET FORM — validation + FormSubmit AJAX
        =================================================================== */
     (function enquiryForm() {
       const form = document.getElementById("enquiryForm");
@@ -946,7 +1164,7 @@
       if (!form) return;
 
       // ⬇⬇ REPLACE_WITH_YOUR_EMAIL — set the destination address below ⬇⬇
-      const ENDPOINT = "https://formsubmit.co/ajax/darren.tan@redbeaconam.com";
+      const ENDPOINT = "https://formsubmit.co/ajax/isaiah.hui@redbeaconam.com";
       // ⬆⬆ REPLACE_WITH_YOUR_EMAIL ⬆⬆
 
       const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -972,7 +1190,7 @@
         if (!name) { setError("name", "Please enter your name."); ok = false; }
         if (!email) { setError("email", "Please enter your email."); ok = false; }
         else if (!EMAIL_RE.test(email)) { setError("email", "Please enter a valid email address."); ok = false; }
-        if (!message) { setError("message", "Please tell us a little about your enquiry."); ok = false; }
+        if (!message) { setError("message", "Please tell us your main goal."); ok = false; }
 
         return ok;
       }
@@ -995,14 +1213,14 @@
           name: form.name.value.trim(),
           email: form.email.value.trim(),
           phone: form.phone.value.trim(),
-          interest: form.interest.value,
-          message: form.message.value.trim(),
-          _subject: "New enquiry from Sterling & Vale website",
+          assets: form.assets.value,
+          goal: form.message.value.trim(),
+          _subject: "New Wealth Blueprint request — Sterling & Vale website",
           _template: "table",
           _captcha: "false"
         };
 
-        const original = btn.textContent;
+        const original = btn.innerHTML;
         btn.disabled = true;
         btn.textContent = "Sending…";
 
@@ -1023,13 +1241,13 @@
           success.classList.add("is-visible");
           form.reset();
           btn.disabled = false;
-          btn.textContent = original;
+          btn.innerHTML = original;
           success.focus && success.setAttribute("tabindex", "-1");
         } catch (err) {
           status.textContent = "Sorry, something went wrong. Please try again or email us directly.";
           status.classList.add("form__status--error");
           btn.disabled = false;
-          btn.textContent = original;
+          btn.innerHTML = original;
         }
       });
 
