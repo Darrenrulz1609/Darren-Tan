@@ -10,7 +10,8 @@ A single-page **lead-magnet** website for **Sterling & Vale Advisory**, a fictio
 
 - **Fully self-contained** — no build step, no package manager, no dependencies (only Google Fonts via `<link>`).
 - **Responsive** layout tuned for ~375 / 768 / 1280px breakpoints; the nav collapses to a hamburger ≤860px.
-- **Scroll-reveal animations** via `IntersectionObserver` (respects `prefers-reduced-motion`).
+- **Scroll-reveal animations** via `IntersectionObserver` (respects `prefers-reduced-motion`), plus a scroll-progress bar, floating hero orbs, and animated count-up on the hero stats.
+- **"How it works"** 3-step section and an accessible **FAQ accordion** (mirrored by `FAQPage` structured data).
 - **Testimonial carousel** — a static 3-column grid ≥1024px, and a JS one-at-a-time carousel (auto-rotate + prev/next/dots) below that.
 - **Lead-magnet enquiry form** with client-side validation, a honeypot anti-spam field, a lead-qualifying field, and AJAX submission via [FormSubmit](https://formsubmit.co) — no page redirect.
 - **SEO-ready** — canonical tag, Open Graph + Twitter cards, `FinancialService` JSON-LD structured data, plus [robots.txt](robots.txt) and [sitemap.xml](sitemap.xml).
