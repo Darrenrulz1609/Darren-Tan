@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<!--
+  Sterling & Vale Advisory — one-page investment advisory website
+  Vanilla HTML/CSS/JS only. No frameworks, no build step. Google Fonts is the
+  only external resource.
+
+  ─────────────────────────────────────────────────────────────────────────────
+  FORMSUBMIT ACTIVATION (read me)
+  The enquiry form posts via FormSubmit's AJAX endpoint (no page redirect).
+  The FIRST time a submission is sent to a new email address, FormSubmit emails
+  that address a one-time confirmation link. The form will NOT deliver any
+  enquiries until you click that activation link. After activating once, every
+  later submission is delivered silently.
+
+  To change the destination address, search this file for REPLACE_WITH_YOUR_EMAIL.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sterling & Vale Advisory — long-term wealth management for professionals and families. Wealth planning, retirement strategy, portfolio management and estate planning." />
+  <title>Sterling &amp; Vale Advisory — Long-Term Wealth Management</title>
+
+  <!-- Google Fonts: Playfair Display (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================================================================
+       DESIGN TOKENS
+       =================================================================== */
+    :root {
+      /* Colour */
+      --navy: #0f1f3a;
+      --slate: #1e2d4d;
+      --slate-deep: #16243f;
+      --gold: #c8a96a;
+      --gold-soft: #d9bf8e;
+      --off-white: #f7f5f0;
+      --white: #ffffff;
+      --ink: #1a1f2b;
+      --muted: #5b6472;
+      --line: #e3e0d8;
+
+      /* Typography */
+      --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      /* Spacing scale */
+      --space-1: 0.5rem;
+      --space-2: 1rem;
+      --space-3: 1.5rem;
+      --space-4: 2rem;
+      --space-5: 3rem;
+      --space-6: 4.5rem;
+      --space-7: 6.5rem;
+
+      /* Misc */
+      --radius: 14px;
+      --radius-sm: 9px;
+      --shadow-sm: 0 2px 10px rgba(15, 31, 58, 0.06);
+      --shadow-md: 0 14px 40px rgba(15, 31, 58, 0.10);
+      --maxw: 1180px;
+      --nav-h: 72px;
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    /* ===================================================================
+       BASE / RESET
+       =================================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--ink);
+      background: var(--off-white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3 { font-family: var(--font-serif); line-height: 1.15; margin: 0; color: var(--navy); font-weight: 600; }
+
+    p { margin: 0; }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { max-width: 100%; display: block; }
+
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--maxw);
+      margin-inline: auto;
+      padding-inline: var(--space-3);
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: var(--space-2);
+    }
+
+    .section { padding-block: var(--space-7); }
+
+    .section__head { max-width: 640px; margin-bottom: var(--space-5); }
+    .section__head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); }
+    .section__head p { color: var(--muted); margin-top: var(--space-2); font-size: 1.05rem; }
+
+    /* ===================================================================
+       BUTTONS
+       =================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.9rem 1.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.18s var(--ease), background-color 0.2s var(--ease), box-shadow 0.2s var(--ease), color 0.2s var(--ease);
+    }
+    .btn:active { transform: translateY(1px); }
+
+    .btn--gold {
+      background: var(--gold);
+      color: var(--navy);
+      box-shadow: 0 8px 22px rgba(200, 169, 106, 0.32);
+    }
+    .btn--gold:hover { background: var(--gold-soft); transform: translateY(-2px); }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .btn--ghost:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.7); }
+
+    .btn[disabled] { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+    /* ===================================================================
+       NAVBAR
+       =================================================================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(247, 245, 240, 0.85);
+      backdrop-filter: saturate(160%) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav__inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: baseline; gap: 0.55rem; }
+    .brand__mark { font-family: var(--font-serif); font-size: 1.32rem; font-weight: 700; color: var(--navy); letter-spacing: 0.01em; }
+    .brand__mark .amp { color: var(--gold); }
+    .brand__sub { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+    .nav__links { display: flex; align-items: center; gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
+    .nav__links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--slate);
+      position: relative;
+      padding-block: 0.25rem;
+    }
+    .nav__links a::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.25s var(--ease);
+    }
+    .nav__links a:hover::after, .nav__links a:focus-visible::after { width: 100%; }
+
+    .nav__cta { margin-left: var(--space-1); padding: 0.55rem 1.1rem; font-size: 0.9rem; }
+
+    .nav__toggle {
+      display: none;
+      width: 44px; height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      cursor: pointer;
+      padding: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav__toggle span, .nav__toggle span::before, .nav__toggle span::after {
+      content: "";
+      display: block;
+      width: 20px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+    }
+    .nav__toggle span { position: relative; }
+    .nav__toggle span::before { position: absolute; top: -6px; }
+    .nav__toggle span::after { position: absolute; top: 6px; }
+    .nav__toggle[aria-expanded="true"] span { background: transparent; }
+    .nav__toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+    .nav__toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ===================================================================
+       HERO
+       =================================================================== */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      color: var(--white);
+      background:
+        radial-gradient(1100px 520px at 78% -10%, rgba(200, 169, 106, 0.20), transparent 60%),
+        radial-gradient(900px 600px at 5% 110%, rgba(46, 74, 128, 0.55), transparent 55%),
+        linear-gradient(155deg, var(--navy) 0%, var(--slate) 55%, var(--slate-deep) 100%);
+    }
+    /* subtle texture lines */
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 100% 56px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .hero__inner { position: relative; z-index: 1; padding-block: var(--space-6); }
+    .hero__content { max-width: 720px; }
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(2.4rem, 6vw, 4.1rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-soft); }
+    .hero__sub {
+      margin-top: var(--space-3);
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 560px;
+    }
+    .hero__actions { margin-top: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+    .stats {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+      max-width: 720px;
+    }
+    .stat { border-left: 2px solid var(--gold); padding-left: var(--space-2); }
+    .stat__num { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--white); }
+    .stat__label { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+
+    /* ===================================================================
+       SERVICES
+       =================================================================== */
+    .services { background: var(--white); }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+    .card {
+      background: var(--off-white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--gold-soft); }
+    .card__icon {
+      width: 52px; height: 52px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 12px;
+      background: rgba(200, 169, 106, 0.16);
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+    }
+    .card__icon svg { width: 26px; height: 26px; }
+    .card h3 { font-size: 1.22rem; margin-bottom: 0.4rem; }
+    .card p { color: var(--muted); font-size: 0.97rem; }
+
+    /* ===================================================================
+       TESTIMONIALS
+       =================================================================== */
+    .testimonials { background: var(--off-white); }
+    .carousel { position: relative; }
+    .carousel__track { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
+
+    .quote {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      box-shadow: var(--shadow-sm);
+    }
+    .quote__mark { font-family: var(--font-serif); font-size: 3rem; line-height: 0.5; color: var(--gold); height: 1.4rem; }
+    .quote__text { font-size: 1.08rem; color: var(--ink); margin-block: var(--space-2); }
+    .quote__person { display: flex; align-items: center; gap: 0.85rem; margin-top: var(--space-3); }
+    .avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--navy);
+      color: var(--gold-soft);
+      font-weight: 600;
+      font-size: 1rem;
+      flex: 0 0 auto;
+    }
+    .quote__name { font-weight: 600; color: var(--navy); }
+    .quote__role { font-size: 0.86rem; color: var(--muted); }
+
+    /* carousel controls — hidden on desktop where all 3 show as a grid */
+    .carousel__controls { display: none; gap: var(--space-2); justify-content: center; align-items: center; margin-top: var(--space-4); }
+    .carousel__btn {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--navy);
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: grid; place-items: center;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+    }
+    .carousel__btn:hover { background: var(--navy); color: var(--white); }
+    .carousel__dots { display: flex; gap: 0.5rem; }
+    .carousel__dot {
+      width: 9px; height: 9px; border-radius: 50%; border: none;
+      background: var(--line); cursor: pointer; padding: 0;
+      transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .carousel__dot[aria-current="true"] { background: var(--gold); transform: scale(1.25); }
+
+    /* ===================================================================
+       ENQUIRY FORM
+       =================================================================== */
+    .contact { background: var(--white); }
+    .contact__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
+    .contact__aside p { color: var(--muted); margin-top: var(--space-2); }
+    .contact__points { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; gap: var(--space-2); }
+    .contact__points li { display: flex; gap: 0.6rem; align-items: flex-start; color: var(--slate); font-size: 0.97rem; }
+    .contact__points svg { width: 20px; height: 20px; color: var(--gold); flex: 0 0 auto; margin-top: 2px; }
+
+    .form {
+      background: var(--off-white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+    }
+    .field { margin-bottom: var(--space-3); }
+    .field label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--slate); margin-bottom: 0.4rem; }
+    .field .req { color: var(--gold); }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      color: var(--ink);
+      padding: 0.8rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .field textarea { resize: vertical; min-height: 130px; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.22);
+    }
+    .field input[aria-invalid="true"], .field textarea[aria-invalid="true"], .field select[aria-invalid="true"] {
+      border-color: #c0492f;
+      box-shadow: 0 0 0 3px rgba(192, 73, 47, 0.15);
+    }
+    .field__error { color: #c0492f; font-size: 0.82rem; margin-top: 0.35rem; min-height: 1rem; }
+
+    /* honeypot — hidden from real users */
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+
+    .form__row { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
+    .form__submit { width: 100%; }
+
+    .form__status { margin-top: var(--space-2); font-size: 0.95rem; min-height: 1.2rem; }
+    .form__status--error { color: #c0492f; }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: var(--space-5) var(--space-3);
+    }
+    .success.is-visible { display: block; }
+    .success__icon {
+      width: 64px; height: 64px; margin: 0 auto var(--space-3);
+      border-radius: 50%;
+      background: rgba(200, 169, 106, 0.18);
+      display: grid; place-items: center;
+      color: var(--gold);
+    }
+    .success__icon svg { width: 34px; height: 34px; }
+    .success h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .success p { color: var(--muted); }
+
+    /* ===================================================================
+       FOOTER
+       =================================================================== */
+    .footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.78);
+      padding-block: var(--space-5);
+    }
+    .footer__top { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+    .footer__brand .brand__mark { color: var(--white); font-size: 1.4rem; }
+    .footer__brand p { margin-top: var(--space-2); font-size: 0.95rem; max-width: 420px; }
+    .footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .footer__links a { font-size: 0.95rem; color: rgba(255,255,255,0.78); }
+    .footer__links a:hover { color: var(--gold-soft); }
+    .footer__bottom {
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex; flex-wrap: wrap; gap: var(--space-2);
+      justify-content: space-between;
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .footer__disclaimer { max-width: 640px; }
+
+    /* ===================================================================
+       SCROLL-IN ANIMATION
+       =================================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+      will-change: opacity, transform;
+    }
+    .reveal.in-view { opacity: 1; transform: none; }
+    /* stagger children */
+    .reveal[data-delay="1"] { transition-delay: 0.08s; }
+    .reveal[data-delay="2"] { transition-delay: 0.16s; }
+    .reveal[data-delay="3"] { transition-delay: 0.24s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    }
+
+    /* ===================================================================
+       RESPONSIVE
+       =================================================================== */
+    @media (min-width: 600px) {
+      .form__row { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 768px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .footer__top { grid-template-columns: 1.4fr 1fr; align-items: start; }
+      .footer__links { justify-content: flex-end; }
+    }
+
+    @media (min-width: 1024px) {
+      .cards { grid-template-columns: repeat(4, 1fr); }
+      .carousel__track { grid-template-columns: repeat(3, 1fr); }
+      .contact__grid { grid-template-columns: 0.85fr 1.15fr; align-items: start; }
+    }
+
+    /* Mobile nav */
+    @media (max-width: 860px) {
+      .nav__toggle { display: inline-flex; }
+      .nav__links {
+        position: absolute;
+        top: var(--nav-h); left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow-md);
+        padding: var(--space-2);
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.22s var(--ease), opacity 0.22s var(--ease);
+      }
+      .nav__links.is-open { transform: scaleY(1); opacity: 1; pointer-events: auto; }
+      .nav__links li { width: 100%; }
+      .nav__links a { display: block; padding: 0.8rem var(--space-2); border-radius: var(--radius-sm); }
+      .nav__links a:hover { background: var(--off-white); }
+      .nav__links a::after { display: none; }
+      .nav__cta { margin: var(--space-1) var(--space-2) 0; }
+    }
+
+    /* On mobile the testimonials become a one-at-a-time carousel */
+    @media (max-width: 1023px) {
+      .carousel__track .quote { display: none; }
+      .carousel__track .quote.is-active { display: block; }
+      .carousel__controls { display: flex; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ============================= NAVBAR ============================= -->
+  <header class="nav" id="home">
+    <div class="container nav__inner">
+      <a class="brand" href="#home" aria-label="Sterling and Vale Advisory home">
+        <span class="brand__mark">Sterling <span class="amp">&amp;</span> Vale</span>
+        <span class="brand__sub">Advisory</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="nav__links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact" class="btn btn--gold nav__cta">Book a Consultation</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================= HERO ============================= -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <div class="hero__content reveal">
+          <p class="eyebrow">Independent Wealth Management</p>
+          <h1 id="hero-title">Grow and protect <em>what matters</em></h1>
+          <p class="hero__sub">
+            Thoughtful, long-term financial guidance for professionals and families —
+            built on patience, clarity, and a fiduciary commitment to your goals.
+          </p>
+          <div class="hero__actions">
+            <a href="#contact" class="btn btn--gold" data-scroll>Book a Consultation</a>
+            <a href="#about" class="btn btn--ghost" data-scroll>Our Approach</a>
+          </div>
+
+          <div class="stats" role="list">
+            <div class="stat" role="listitem">
+              <div class="stat__num">$10B+</div>
+              <div class="stat__label">Assets advised</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num">20+</div>
+              <div class="stat__label">Years of experience</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num">98%</div>
+              <div class="stat__label">Client retention</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== SERVICES =========================== -->
+    <section class="section services" id="about" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">What we do</p>
+          <h2 id="services-title">A complete view of your financial life</h2>
+          <p>We coordinate every part of your wealth so each decision supports the next — today, in retirement, and for the generations that follow.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal" data-delay="0">
+            <span class="card__icon" aria-hidden="true">
+              <!-- chart/growth -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+            </span>
+            <h3>Wealth Planning</h3>
+            <p>A clear, written plan that aligns your savings, spending, and goals across every stage of life.</p>
+          </article>
+
+          <article class="card reveal" data-delay="1">
+            <span class="card__icon" aria-hidden="true">
+              <!-- shield -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+            </span>
+            <h3>Retirement Strategy</h3>
+            <p>Confidence that your income will last — with tax-aware withdrawals and resilient projections.</p>
+          </article>
+
+          <article class="card reveal" data-delay="2">
+            <span class="card__icon" aria-hidden="true">
+              <!-- balance/portfolio -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+            </span>
+            <h3>Portfolio Management</h3>
+            <p>Diversified, low-cost portfolios designed around your risk tolerance and rebalanced with discipline.</p>
+          </article>
+
+          <article class="card reveal" data-delay="3">
+            <span class="card__icon" aria-hidden="true">
+              <!-- home/estate -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+            </span>
+            <h3>Estate Planning</h3>
+            <p>Thoughtful structures to pass on your legacy efficiently and care for the people you love.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= TESTIMONIALS ========================= -->
+    <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">In their words</p>
+          <h2 id="testimonials-title">Trusted across generations</h2>
+          <p>Relationships measured in decades, not quarters.</p>
+        </div>
+
+        <div class="carousel reveal">
+          <div class="carousel__track" id="carouselTrack" aria-live="polite">
+            <figure class="quote is-active">
+              <div class="quote__mark" aria-hidden="true">&ldquo;</div>
+              <blockquote class="quote__text">Sterling &amp; Vale gave us a plan we actually understand. For the first time, we feel calm about retiring — and about what we leave behind.</blockquote>
+              <figcaption class="quote__person">
+                <span class="avatar" aria-hidden="true">MA</span>
+                <span>
+                  <span class="quote__name">Margaret Aldridge</span><br />
+                  <span class="quote__role">Retired Engineer</span>
+                </span>
+              </figcaption>
+            </figure>
+
+            <figure class="quote">
+              <div class="quote__mark" aria-hidden="true">&ldquo;</div>
+              <blockquote class="quote__text">They steered us through two volatile markets without a single rushed decision. Patient, transparent, and genuinely on our side.</blockquote>
+              <figcaption class="quote__person">
+                <span class="avatar" aria-hidden="true">DO</span>
+                <span>
+                  <span class="quote__name">David &amp; Priya Okafor</span><br />
+                  <span class="quote__role">Business Owners</span>
+                </span>
+              </figcaption>
+            </figure>
+
+            <figure class="quote">
+              <div class="quote__mark" aria-hidden="true">&ldquo;</div>
+              <blockquote class="quote__text">As a single parent, I needed advice I could trust completely. Their fiduciary approach made the difference — no products pushed, just honest guidance.</blockquote>
+              <figcaption class="quote__person">
+                <span class="avatar" aria-hidden="true">RC</span>
+                <span>
+                  <span class="quote__name">Rachel Chen</span><br />
+                  <span class="quote__role">Physician</span>
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="carousel__controls">
+            <button class="carousel__btn" id="prevBtn" aria-label="Previous testimonial">&#8592;</button>
+            <div class="carousel__dots" id="carouselDots" role="tablist" aria-label="Choose testimonial"></div>
+            <button class="carousel__btn" id="nextBtn" aria-label="Next testimonial">&#8594;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== CONTACT ============================ -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact__grid">
+          <div class="contact__aside reveal">
+            <p class="eyebrow">Get in touch</p>
+            <h2 id="contact-title">Book a consultation</h2>
+            <p>Tell us a little about your goals. We'll respond within one business day to arrange a complimentary, no-obligation conversation.</p>
+            <ul class="contact__points">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                Fiduciary advice — always in your interest
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                Transparent, fee-based pricing
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                A dedicated advisor for the long term
+              </li>
+            </ul>
+          </div>
+
+          <div class="reveal">
+            <!-- Enquiry form: submits via FormSubmit AJAX (no redirect) -->
+            <form class="form" id="enquiryForm" novalidate>
+              <!-- Honeypot: real users never see/fill this; bots often do -->
+              <div class="hp" aria-hidden="true">
+                <label for="_honey">Leave this field empty</label>
+                <input type="text" id="_honey" name="_honey" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="form__row">
+                <div class="field">
+                  <label for="name">Full Name <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="name" name="name" autocomplete="name" required aria-required="true" aria-describedby="err-name" />
+                  <div class="field__error" id="err-name" role="alert"></div>
+                </div>
+                <div class="field">
+                  <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                  <input type="email" id="email" name="email" autocomplete="email" required aria-required="true" aria-describedby="err-email" />
+                  <div class="field__error" id="err-email" role="alert"></div>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="field">
+                  <label for="phone">Phone <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+                  <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="err-phone" />
+                  <div class="field__error" id="err-phone" role="alert"></div>
+                </div>
+                <div class="field">
+                  <label for="interest">Investment interest</label>
+                  <select id="interest" name="interest">
+                    <option value="Wealth Planning">Wealth Planning</option>
+                    <option value="Retirement">Retirement</option>
+                    <option value="Portfolio Management">Portfolio Management</option>
+                    <option value="Estate Planning">Estate Planning</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="message">Message <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" required aria-required="true" aria-describedby="err-message" placeholder="What would you like to achieve?"></textarea>
+                <div class="field__error" id="err-message" role="alert"></div>
+              </div>
+
+              <button type="submit" class="btn btn--gold form__submit" id="submitBtn">Send Enquiry</button>
+              <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+            </form>
+
+            <!-- Inline success message (shown after a successful submit) -->
+            <div class="form success" id="formSuccess" role="status" aria-live="polite">
+              <div class="success__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <h3>Thank you</h3>
+              <p>Thanks — we'll be in touch within one business day.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <span class="brand__mark">Sterling <span class="amp" style="color:var(--gold)">&amp;</span> Vale</span>
+          <p>Patient, independent wealth management for professionals and families who think in decades.</p>
+        </div>
+        <nav aria-label="Footer">
+          <ul class="footer__links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; <span id="year"></span> Sterling &amp; Vale Advisory. All rights reserved.</p>
+        <p class="footer__disclaimer">This website is for informational purposes only and does not constitute financial advice.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    "use strict";
+
+    /* ===================================================================
+       1. MOBILE NAV TOGGLE
+       =================================================================== */
+    (function navMenu() {
+      const toggle = document.getElementById("navToggle");
+      const links = document.getElementById("navLinks");
+      if (!toggle || !links) return;
+
+      const close = () => {
+        links.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
+
+      toggle.addEventListener("click", () => {
+        const open = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+
+      // Close the menu after any link click (mobile)
+      links.addEventListener("click", (e) => {
+        if (e.target.closest("a")) close();
+      });
+
+      // Close on Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+    })();
+
+    /* ===================================================================
+       2. SMOOTH SCROLL (JS fallback + consistent offset)
+       =================================================================== */
+    (function smoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const id = link.getAttribute("href");
+          if (id.length < 2) return;
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          // Move focus for accessibility without an extra jump
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+        });
+      });
+    })();
+
+    /* ===================================================================
+       3. SCROLL-IN REVEAL (IntersectionObserver)
+       =================================================================== */
+    (function revealOnScroll() {
+      const items = document.querySelectorAll(".reveal");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduce || !("IntersectionObserver" in window)) {
+        items.forEach((el) => el.classList.add("in-view"));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+      items.forEach((el) => io.observe(el));
+    })();
+
+    /* ===================================================================
+       4. TESTIMONIAL CAROUSEL (mobile / tablet)
+       =================================================================== */
+    (function carousel() {
+      const track = document.getElementById("carouselTrack");
+      const slides = track ? Array.from(track.querySelectorAll(".quote")) : [];
+      const prev = document.getElementById("prevBtn");
+      const next = document.getElementById("nextBtn");
+      const dotsWrap = document.getElementById("carouselDots");
+      if (!track || slides.length === 0) return;
+
+      let index = 0;
+      let timer = null;
+      const AUTO_MS = 6000;
+
+      // Build dots
+      const dots = slides.map((_, i) => {
+        const b = document.createElement("button");
+        b.className = "carousel__dot";
+        b.setAttribute("role", "tab");
+        b.setAttribute("aria-label", "Show testimonial " + (i + 1));
+        b.addEventListener("click", () => { go(i); restart(); });
+        dotsWrap.appendChild(b);
+        return b;
+      });
+
+      function show(i) {
+        slides.forEach((s, n) => s.classList.toggle("is-active", n === i));
+        dots.forEach((d, n) => d.setAttribute("aria-current", String(n === i)));
+        index = i;
+      }
+      function go(i) { show((i + slides.length) % slides.length); }
+      function nextSlide() { go(index + 1); }
+
+      function start() { timer = window.setInterval(nextSlide, AUTO_MS); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function restart() { stop(); start(); }
+
+      prev && prev.addEventListener("click", () => { go(index - 1); restart(); });
+      next && next.addEventListener("click", () => { go(index + 1); restart(); });
+
+      // Pause on hover/focus
+      const wrap = track.closest(".carousel");
+      wrap.addEventListener("mouseenter", stop);
+      wrap.addEventListener("mouseleave", start);
+      wrap.addEventListener("focusin", stop);
+      wrap.addEventListener("focusout", start);
+
+      show(0);
+      start();
+    })();
+
+    /* ===================================================================
+       5. FOOTER YEAR
+       =================================================================== */
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    /* ===================================================================
+       6. ENQUIRY FORM — validation + FormSubmit AJAX
+       =================================================================== */
+    (function enquiryForm() {
+      const form = document.getElementById("enquiryForm");
+      const success = document.getElementById("formSuccess");
+      const status = document.getElementById("formStatus");
+      const btn = document.getElementById("submitBtn");
+      if (!form) return;
+
+      // ⬇⬇ REPLACE_WITH_YOUR_EMAIL — set the destination address below ⬇⬇
+      const ENDPOINT = "https://formsubmit.co/ajax/darren.tan@redbeaconam.com";
+      // ⬆⬆ REPLACE_WITH_YOUR_EMAIL ⬆⬆
+
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      const setError = (field, msg) => {
+        const input = document.getElementById(field);
+        const box = document.getElementById("err-" + field);
+        if (box) box.textContent = msg || "";
+        if (input) {
+          if (msg) input.setAttribute("aria-invalid", "true");
+          else input.removeAttribute("aria-invalid");
+        }
+      };
+
+      function validate() {
+        let ok = true;
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const message = form.message.value.trim();
+
+        ["name", "email", "message"].forEach((f) => setError(f, ""));
+
+        if (!name) { setError("name", "Please enter your name."); ok = false; }
+        if (!email) { setError("email", "Please enter your email."); ok = false; }
+        else if (!EMAIL_RE.test(email)) { setError("email", "Please enter a valid email address."); ok = false; }
+        if (!message) { setError("message", "Please tell us a little about your enquiry."); ok = false; }
+
+        return ok;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        status.textContent = "";
+        status.classList.remove("form__status--error");
+
+        // Honeypot: if filled, silently succeed without sending (bot)
+        if (form._honey.value) { return; }
+
+        if (!validate()) {
+          status.textContent = "Please correct the highlighted fields.";
+          status.classList.add("form__status--error");
+          return;
+        }
+
+        const payload = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          phone: form.phone.value.trim(),
+          interest: form.interest.value,
+          message: form.message.value.trim(),
+          _subject: "New enquiry from Sterling & Vale website",
+          _template: "table",
+          _captcha: "false"
+        };
+
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+
+        try {
+          const res = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) throw new Error("Request failed: " + res.status);
+
+          // Success — hide the form, show the friendly message, reset state
+          form.style.display = "none";
+          success.classList.add("is-visible");
+          form.reset();
+          btn.disabled = false;
+          btn.textContent = original;
+          success.focus && success.setAttribute("tabindex", "-1");
+        } catch (err) {
+          status.textContent = "Sorry, something went wrong. Please try again or email us directly.";
+          status.classList.add("form__status--error");
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      });
+
+      // Clear a field's error as the user corrects it
+      ["name", "email", "message"].forEach((f) => {
+        const input = document.getElementById(f);
+        input && input.addEventListener("input", () => setError(f, ""));
+      });
+    })();
+  </script>
+</body>
+</html>
